@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioModel } from 'src/app/models/usuario.model';
-import { getMaxListeners } from 'cluster';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -15,7 +14,6 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit() {
     this.usuario = new UsuarioModel();
-    this.usuario.email = 'bryaalba92@gmail.com';
    }
 
    onSubmit(form: NgForm) {
