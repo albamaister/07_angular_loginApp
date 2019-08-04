@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { UsuarioModel } from '../models/usuario.model';
 // no se necesita importar en el app.modulo porque ya esta proveido de manera global
 // mediante el decorador que tiene esta propiedad de providedIn: 'root'
@@ -8,8 +8,8 @@ import { UsuarioModel } from '../models/usuario.model';
 })
 export class AuthService {
 
-  private url: 'https://identitytoolkit.googleapis.com/v1/accounts';
-  private apikey: 'AIzaSyA8waZAOC0v_r5dzYKnMKxEluSeypyH1LU';
+  private url = 'https://identitytoolkit.googleapis.com/v1/accounts';
+  private apikey = 'AIzaSyA8waZAOC0v_r5dzYKnMKxEluSeypyH1LU';
   // se necesita 2 srvicios: 1 para llamar lo que es la autenticacion y otro para crear usuarios
 
 
@@ -18,11 +18,20 @@ export class AuthService {
 
   // login
   // https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
-  constructor(private http: HttpClientModule ) { }
+  constructor(private http: HttpClient ) { }
 
   logout() {}
 
   login(usuario: UsuarioModel) {}
 
-  nuevoUsuario(usuario: UsuarioModel) {}
+  nuevoUsuario(usuario: UsuarioModel) {
+    const authData = {
+      email: usuario.email,
+      password: usuario.password,
+      returnSecureToken: true
+    };
+    return this.http.post(
+      `${this.url}:signUp?key=${this.apikey}`, authData
+    )
+  }
 }
