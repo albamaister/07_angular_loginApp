@@ -22,7 +22,16 @@ export class AuthService {
 
   logout() {}
 
-  login(usuario: UsuarioModel) {}
+  login(usuario: UsuarioModel) {
+    const authData = {
+      email: usuario.email,
+      password: usuario.password,
+      returnSecureToken: true
+    };
+    return this.http.post(
+      `${this.url}:signInWithPassword?key=${this.apikey}`, authData
+    );
+  }
 
   nuevoUsuario(usuario: UsuarioModel) {
     const authData = {
@@ -32,6 +41,6 @@ export class AuthService {
     };
     return this.http.post(
       `${this.url}:signUp?key=${this.apikey}`, authData
-    )
+    );
   }
 }
