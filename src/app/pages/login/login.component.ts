@@ -15,7 +15,12 @@ export class LoginComponent implements OnInit {
   constructor( private auth: AuthService,
                private router: Router ) { }
   usuario: UsuarioModel = new UsuarioModel();
+  recordarme = false;
   ngOnInit() {
+    if (localStorage.getItem('email')) {
+      this.usuario.email = localStorage.getItem('email');
+      this.recordarme = true;
+    }
   }
   login( form: NgForm ) {
     if ( form.invalid ) { return; }
@@ -30,6 +35,10 @@ export class LoginComponent implements OnInit {
     this.auth.login( this.usuario ).subscribe( resp => {
       console.log(resp);
       Swal.close();
+      if (this.recordarme) {
+        localStorage.setItem('email', this.usuario.email);
+      }
+
       this.router.navigateByUrl('/home');
     }, (err) => {
       console.log(err.error.error.message);
